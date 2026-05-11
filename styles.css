@@ -1,0 +1,17 @@
+
+:root{
+  --bg:#0b0b0b;
+  --card:#1a1a1a;
+  --muted:#9aa0a6;
+  --accent:#f4c542;
+}
+body{background:var(--bg); color: #e9ecef;}
+.navbar-nav .nav-link{letter-spacing:0.06em;font-weight:600;}
+.brand-box{display:none;}
+.hero img{max-height:320px;object-fit:cover;}
+.service-card{border-left:4px solid var(--accent);}
+a{text-decoration:none;}
+footer{border-top:1px solid rgba(255,255,255,0.04);}
+.card, .service-card{background:var(--card);}
+.btn-warning{background:var(--accent);border-color:var(--accent);color:#111;}
+input, textarea{border-radius:6px;}
