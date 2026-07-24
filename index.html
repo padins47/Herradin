@@ -33,12 +33,20 @@
 
     body {
       font-family: 'Rajdhani', sans-serif;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                  url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1920&w=1920&q=80');
+      background-color: var(--dark-gray);
+      background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
       background-attachment: fixed;
+      background-position: center;
       color: #e0e0e0;
       overflow-x: hidden;
+    }
+
+    /* Solución para el zoom masivo del fondo en celulares (Bug de iOS/Android) */
+    @media (max-width: 768px) {
+      body {
+        background-attachment: scroll; 
+      }
     }
 
     /* Navbar Estilizada */
@@ -75,6 +83,13 @@
       box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
 
+    /* Ajuste para que en celulares la caja principal no choque con los bordes */
+    @media (max-width: 768px) {
+      .hero-content {
+        padding: 30px 20px;
+      }
+    }
+
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: clamp(2.5rem, 8vw, 4.5rem);
@@ -92,6 +107,12 @@
       border-left: 5px solid var(--gold);
       backdrop-filter: blur(10px);
       transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .section-card {
+        padding: 25px 15px;
+      }
     }
 
     .section-card:hover {
@@ -121,7 +142,7 @@
       margin-bottom: 15px;
     }
 
-    /* --- ESTILOS NUEVA GALERÍA INTERACTIVA --- */
+    /* --- ESTILOS NUEVA GALERÍA INTERACTIVA Y CENTRADO DE FOTOS --- */
     .project-card {
       transition: transform 0.3s ease, border-color 0.3s ease;
       background: rgba(0, 0, 0, 0.4);
@@ -130,6 +151,14 @@
     .project-card:hover {
       transform: scale(1.03);
       border-color: var(--gold) !important;
+    }
+
+    /* Centrado perfecto de imágenes en todos los dispositivos */
+    .project-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      object-position: center; /* Clave para que en celular no se corte por los costados */
     }
 
     .project-overlay {
@@ -199,6 +228,10 @@
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       text-decoration: none;
     }
+    
+    .whatsapp-btn i {
+      line-height: 1; 
+    }
 
     .whatsapp-btn:hover {
       transform: scale(1.1) rotate(10deg);
@@ -214,19 +247,28 @@
       margin-top: 100px;
     }
 
+    /* Estructura Corregida para Botones (Centrado Perfecto) */
     .btn-gold {
       background: var(--gold);
       color: black;
       font-weight: 700;
-      padding: 12px 30px;
       border-radius: 5px;
       text-transform: uppercase;
       transition: 0.3s;
+      display: inline-flex; 
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .btn-gold:hover {
       background: #e6b800;
       box-shadow: 0 0 15px var(--gold);
+      color: black;
+    }
+    
+    .hero-btn {
+      height: 48px; 
     }
   </style>
 </head>
@@ -244,7 +286,7 @@
           <li class="nav-item"><a class="nav-link" href="#rejas">Productos</a></li>
           <li class="nav-item"><a class="nav-link" href="#faq">Preguntas</a></li>
           <li class="nav-item"><a class="nav-link" href="presupuesto.html">Presupuesto</a></li>
-          <li class="nav-item"><a class="btn btn-gold ms-lg-3" href="#contacto">Contacto</a></li>
+          <li class="nav-item"><a class="btn btn-gold ms-lg-3 px-4 py-2" href="#contacto">Contacto</a></li>
         </ul>
       </div>
     </div>
@@ -252,12 +294,12 @@
 
   <header class="hero container">
     <div class="hero-content">
-      <p class="text-uppercase mb-2" style="letter-spacing: 5px; color: #aaa;">Herrería de Obra a Medida</p>
+      <p class="text-uppercase mb-2" style="letter-spacing: 5px; color: #e0e0e0; font-weight: 500;">Herrería de Obra a Medida</p>
       <h1>HERRADIN</h1>
       <p class="lead mb-4">Fabricación de estructuras metálicas y parrillas reforzadas con precisión industrial en Zona Norte y CABA.</p>
-      <div class="d-flex justify-content-center gap-3">
-        <a href="galeria.html" class="btn btn-gold">Ver Galería</a>
-        <a href="presupuesto.html" class="btn btn-outline-light px-4">Pedir Presupuesto</a>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="galeria.html" class="btn btn-gold hero-btn px-4">Ver Galería</a>
+        <a href="presupuesto.html" class="btn btn-outline-light hero-btn px-4 d-inline-flex align-items-center justify-content-center">Pedir Presupuesto</a>
       </div>
     </div>
   </header>
@@ -301,18 +343,20 @@
     <div class="section-card">
       <h2>Nuestros Trabajos</h2>
       
-      <div class="d-flex flex-wrap gap-2 mb-4 justify-content-start">
+      <!-- Cambio justify-content-center en celulares y md-start en PC -->
+      <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-md-start">
         <button class="btn btn-gold filter-btn" data-filter="all">Ver Todo</button>
-        <button class="btn btn-outline-warning text-white filter-btn" data-filter="parrillas">Parrillas</button>
-        <button class="btn btn-outline-warning text-white filter-btn" data-filter="rejas">Rejas y Cobertores</button>
-        <button class="btn btn-outline-warning text-white filter-btn" data-filter="cerramientos">Cerramientos</button>
+        <button class="btn btn-outline-warning filter-btn" data-filter="parrillas">Parrillas</button>
+        <button class="btn btn-outline-warning filter-btn" data-filter="rejas">Rejas y Cobertores</button>
+        <button class="btn btn-outline-warning filter-btn" data-filter="cerramientos">Cerramientos</button>
       </div>
 
       <div class="row g-4" id="gallery-grid">
         
         <div class="col-md-4 gallery-item" data-category="rejas">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/reja_balconIA.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Reja Balcón">
+            <!-- Limpieza de estilos en línea en todas las imágenes -->
+            <img src="assets/reja_balconIA.png" class="img-fluid" alt="Reja Balcón">
             <div class="project-overlay p-3 text-center">
               <h5>Rejas de Seguridad</h5>
               <p class="small mb-0">Estética industrial y protección para tu hogar.</p>
@@ -322,7 +366,7 @@
 
         <div class="col-md-4 gallery-item" data-category="cerramientos">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/rejas_pileta_ia.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Reja Pileta">
+            <img src="assets/rejas_pileta_ia.png" class="img-fluid" alt="Reja Pileta">
             <div class="project-overlay p-3 text-center">
               <h5>Cerramientos de Pileta</h5>
               <p class="small mb-0">Seguridad perimetral con terminaciones premium.</p>
@@ -332,7 +376,7 @@
 
         <div class="col-md-4 gallery-item" data-category="parrillas">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/parrillapara_grasaIA.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Parrilla">
+            <img src="assets/parrillapara_grasaIA.png" class="img-fluid" alt="Parrilla">
             <div class="project-overlay p-3 text-center">
               <h5>Parrillas a Medida</h5>
               <p class="small mb-0">Diseños reforzados para expertos del asado.</p>
@@ -342,30 +386,30 @@
 
         <div class="col-md-4 gallery-item" data-category="rejas">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/rejaaire_ia.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Cobertor AC">
+            <img src="assets/rejaaire_ia.png" class="img-fluid" alt="Cobertor AC">
             <div class="project-overlay p-3 text-center">
-              <h5>Cobertores para AC</h5>
-              <p class="small mb-0">Diseños a medida e impresión personal.</p>
+              <h5>Cobertores para Aire Acondicionado</h5>
+              <p class="small mb-0">Diseños a medida con estilo personal.</p>
             </div>
           </div>
         </div>
 
         <div class="col-md-4 gallery-item" data-category="parrillas">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/parrilla_leña.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Parrilla Leña">
+            <img src="assets/parrilla_leña.png" class="img-fluid" alt="Parrilla Leña">
             <div class="project-overlay p-3 text-center">
-              <h5>Para hacer tu leña</h5>
-              <p class="small mb-0">De todos los Modelos y Medidas.</p>
+              <h5>Fogoneros y Leñeros</h5>
+              <p class="small mb-0">Variedad de modelos y medidas exactas.</p>
             </div>
           </div>
         </div> 
 
         <div class="col-md-4 gallery-item" data-category="parrillas">
           <div class="position-relative overflow-hidden rounded border border-secondary project-card">
-            <img src="assets/parrilla_V2ia.png" class="img-fluid w-100 object-fit-cover" style="height: 260px;" alt="Parrilla Premium">
+            <img src="assets/parrilla_V2ia.png" class="img-fluid" alt="Parrilla Premium">
             <div class="project-overlay p-3 text-center">
-              <h5>Parrillas de diseño a tu Estilo</h5>
-              <p class="small mb-0">Diferentes modelos para cosas específicas.</p>
+              <h5>Parrillas de Diseño a tu Estilo</h5>
+              <p class="small mb-0">Soluciones funcionales para cada necesidad.</p>
             </div>
           </div>
         </div>
@@ -440,7 +484,7 @@
       <h2>¿Tenés un proyecto en mente?</h2>
       <p class="fs-4">Contactanos hoy mismo y recibí asesoramiento técnico especializado.</p>
       <p class="mb-4">Email: <span class="text-warning">herradinmetal@gmail.com</span></p>
-      <a href="https://wa.me/5491151093606" class="btn btn-gold btn-lg" target="_blank" rel="noopener noreferrer">Chatear por WhatsApp</a>
+      <a href="https://wa.me/5491151093606" class="btn btn-gold px-5 py-3 fs-5" target="_blank" rel="noopener noreferrer">Chatear por WhatsApp</a>
     </div>
   </section>
 
@@ -466,9 +510,9 @@
         button.addEventListener('click', () => {
           filterButtons.forEach(btn => {
             btn.classList.remove('btn-gold');
-            btn.classList.add('btn-outline-warning', 'text-white');
+            btn.classList.add('btn-outline-warning');
           });
-          button.classList.remove('btn-outline-warning', 'text-white');
+          button.classList.remove('btn-outline-warning');
           button.classList.add('btn-gold');
 
           const targetFilter = button.getAttribute('data-filter');
